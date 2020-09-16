@@ -5,7 +5,8 @@ var webpack = require('webpack'),
   { CleanWebpackPlugin } = require('clean-webpack-plugin'),
   CopyWebpackPlugin = require('copy-webpack-plugin'),
   HtmlWebpackPlugin = require('html-webpack-plugin'),
-  WriteFilePlugin = require('write-file-webpack-plugin');
+  WriteFilePlugin = require('write-file-webpack-plugin'),
+  ChromeExtensionReloader  = require('webpack-chrome-extension-reloader');
 
 // load the secrets
 var alias = {
@@ -38,7 +39,7 @@ var options = {
     options: path.join(__dirname, 'src', 'pages', 'Options', 'index.jsx'),
     popup: path.join(__dirname, 'src', 'pages', 'Popup', 'index.jsx'),
     background: path.join(__dirname, 'src', 'pages', 'Background', 'index.js'),
-    contentScript: path.join(__dirname, 'src', 'pages', 'Content', 'index.js'),
+    contentScript: path.join(__dirname, 'src', 'pages', 'Content', 'index.jsx'),
   },
   chromeExtensionBoilerplate: {
     notHotReload: ['contentScript'],
@@ -55,13 +56,13 @@ var options = {
       //   exclude: /node_modules/,
       // },
       // {
-      //   test: /\.scss$/,
+      //   test: /\.(scss|sass)$/,
       //   loader: 'sass-loader',
       //   exclude: /node_modules/,
       // },
       {
         // look for .css or .scss files
-        test: /\.(css|scss)$/,
+        test: /\.(css|scss|sass)$/,
         // in the `src` directory
         use: [
           {
@@ -111,36 +112,35 @@ var options = {
     // expose and write the allowed env vars on the compiled bundle
     new webpack.EnvironmentPlugin(['NODE_ENV']),
     new CopyWebpackPlugin(
-      [
-        {
-          from: 'src/manifest.json',
-          to: path.join(__dirname, 'build'),
-          force: true,
-          transform: function (content, path) {
-            // generates the manifest file using the package.json informations
-            return Buffer.from(
-              JSON.stringify({
-                description: process.env.npm_package_description,
-                version: process.env.npm_package_version,
-                ...JSON.parse(content.toString()),
-              })
-            );
-          },
-        },
-      ],
-      {
-        logLevel: 'info',
-        copyUnmodified: true,
-      }
+      { patterns: [{
+      from: 'src/manifest.json',
+      to: path.join(__dirname, 'build'),
+      force: true,
+      transform: function(content, path) {
+        // generates the manifest file using the package.json informations
+        return Buffer.from(
+          JSON.stringify({
+            description: process.env.npm_package_description,
+            version: process.env.npm_package_version,
+            ...JSON.parse(content.toString()),
+          })
+        );
+      },
+    }]},
+    {
+      logLevel: 'info',
+      copyUnmodified: true,
+    }
     ),
     new CopyWebpackPlugin(
-      [
+      {
+        patterns: [
         {
           from: 'src/pages/Content/content.styles.css',
           to: path.join(__dirname, 'build'),
           force: true,
         },
-      ],
+      ]},
       {
         logLevel: 'info',
         copyUnmodified: true,
@@ -173,6 +173,12 @@ var options = {
       chunks: ['background'],
     }),
     new WriteFilePlugin(),
+    new ChromeExtensionReloader({
+      entries: {
+        contentScript: 'contentScript',
+        background: 'background'
+      }
+    }),
   ],
 };
 

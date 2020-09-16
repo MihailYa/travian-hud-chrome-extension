@@ -8,6 +8,8 @@ var WebpackDevServer = require('webpack-dev-server'),
   env = require('./env'),
   path = require('path');
 
+const fs = require('fs');
+
 var options = config.chromeExtensionBoilerplate || {};
 var excludeEntriesToHotReload = options.notHotReload || [];
 
@@ -31,12 +33,19 @@ var compiler = webpack(config);
 var server = new WebpackDevServer(compiler, {
   hot: true,
   contentBase: path.join(__dirname, '../build'),
-  // sockPort: env.PORT,
-  // port: env.PORT,
+  sockPort: env.PORT,
+  port: env.PORT,
   headers: {
     'Access-Control-Allow-Origin': '*',
   },
   disableHostCheck: true,
+
+  http2: true,
+  https: {
+    key: fs.readFileSync('./ssl/localhost.key'),
+    cert: fs.readFileSync('./ssl/localhost.crt'),
+    ca: fs.readFileSync('./ssl/localhost.csr'),
+  },
 });
 
 server.listen(env.PORT);
