@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import './FloatingWindow.sass'
+import './FloatingWindow.sass';
 
 export default class FloatingWindow extends Component {
   state = {
     isDragging: false,
     mouseOffset: null,
     floatingWindowRef: React.createRef(),
-  }
+  };
 
   onMouseDown(event) {
     const newState = Object.assign({}, this.state);
@@ -26,7 +26,7 @@ export default class FloatingWindow extends Component {
     const newState = Object.assign({}, this.state);
     newState.isDragging = false;
     newState.mouseOffset = null;
-    this.setState(newState)
+    this.setState(newState);
   }
 
   onMouseMove(event) {
@@ -44,8 +44,11 @@ export default class FloatingWindow extends Component {
 
   render() {
     return <div className="floatingWindow" ref={this.state.floatingWindowRef}>
-      <div className="floatingWindowHandle" onMouseDown={this.onMouseDown.bind(this)} onMouseUp={this.onMouseUp.bind(this)} />
-      {this.props.children}
+      <div className="floatingWindowHandle" onMouseDown={this.onMouseDown.bind(this)}
+           onMouseUp={this.onMouseUp.bind(this)} />
+      <div className="floatingWindowContent">
+        {this.props.children}
+      </div>
     </div>;
   }
 }

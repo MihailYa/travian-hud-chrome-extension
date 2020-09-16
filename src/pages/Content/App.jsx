@@ -2,14 +2,23 @@ import React, { Component } from 'react';
 import FloatingWindow from './FloatingWindow/FloatingWindow';
 
 class App extends Component {
+  floatingWindowRef = React.createRef();
+
+  onIframeLoad() {
+    const iFrame = this.floatingWindowRef.current;
+    iFrame.height = iFrame.contentWindow.document.body.scrollHeight + "px";
+  }
+
   render() {
     return (
-      <FloatingWindow>
-        <div className="app">
-          Some draggable
-          content
-        </div>
-      </FloatingWindow>
+      <div className="appRoot">
+        <FloatingWindow>
+          <div>
+            Some draggable
+            content
+          </div>
+        </FloatingWindow>
+      </div>
     );
   }
 }
