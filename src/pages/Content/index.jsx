@@ -3,11 +3,8 @@ import { render } from 'react-dom';
 import './index.sass'
 import App from './App';
 
-
-// document.body.parentNode.innerHTML = fs.readFileSync("index.html");
 const root = document.createElement('div');
 root.id = "travianHudRoot";
-document.body.innerHTML = '';
-document.body.appendChild(root);
+document.body.insertBefore(root, document.body.firstChild);
 
 render(<App />, root);
