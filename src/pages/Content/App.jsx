@@ -5,7 +5,7 @@ class App extends Component {
   render() {
     return (
       <div className="appRoot">
-        <FloatingWindow>
+        <FloatingWindow componentId="villagesList">
           <div>
             Some draggable
             content
