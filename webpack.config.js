@@ -147,6 +147,11 @@ var options = {
       }
     ),
     new HtmlWebpackPlugin({
+      template: path.join(__dirname, 'src', 'pages', 'Content', 'index.html'),
+      filename: 'content.html',
+      chunks: ['content'],
+    }),
+    new HtmlWebpackPlugin({
       template: path.join(__dirname, 'src', 'pages', 'Newtab', 'index.html'),
       filename: 'newtab.html',
       chunks: ['newtab'],

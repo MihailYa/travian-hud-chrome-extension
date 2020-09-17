@@ -18,6 +18,7 @@ class App extends Component {
             content
           </div>
         </FloatingWindow>
+        <iframe title={"Travian main"} src={window.location.href} className="travianIframe" ref={this.floatingWindowRef} onLoad={this.onIframeLoad.bind(this)} scrolling="no"/>
       </div>
     );
   }
