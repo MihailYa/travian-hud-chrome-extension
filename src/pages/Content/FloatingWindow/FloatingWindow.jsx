@@ -5,7 +5,6 @@ export default class FloatingWindow extends Component {
   constructor(props) {
     super(props);
     const savedState = JSON.parse(localStorage.getItem(this.getKey("state"))) || {};
-    console.log("saved state: " + JSON.stringify(savedState));
     this.state = Object.assign(savedState, {
       isDragging: false,
       mouseOffset: null,

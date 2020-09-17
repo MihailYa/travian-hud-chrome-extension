@@ -1,0 +1,21 @@
+@import "../global/colors"
+@import "../global/images"
+
+.villagesListTable
+  background: none
+  td
+    border: none
+    background: none
+  tr:not(.activeVillageRow)
+    td:first-child svg
+      @include addInactiveImage($darkBGColorStr)
+      width: 13px
+      height: 13px
+    &:hover
+      td:first-child svg
+        @include addActiveImage($darkBGColorStr)
+  tr.activeVillageRow
+    td:first-child svg
+      @include addActiveImage($darkBGColorStr)
+      width: 13px
+      height: 13px

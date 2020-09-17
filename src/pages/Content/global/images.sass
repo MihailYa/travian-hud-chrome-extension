@@ -1,0 +1,19 @@
+$cargoImageSrc: url("data:image/gif;base64,R0lGODlhEgAMAIQWAKuZY+DUr8q6iol4RWJTKPLpzPz79fn05sC2l9bNs8vCqdTOvOzm1dzTutvQsLWphrmvkdvVwuTdyKeacPr37efk2v///////////////////////////////////////yH5BAEAAB8ALAAAAAASAAwAAAVW4Cd+DTAQAjOua2CigMPO7hAIpjm3LkEAuEFlJyoUfrbgYkcpBAa4mwkyMxhdN+lgEGEdnNmA1ITwgsXiIGHCMgjQN9zrMZMABfIXQbFLAP4mJwRlIiEAOw==")
+$defenseImageSrc: url("data:image/gif;base64,R0lGODlhEgAMAOMMAHJWAIpQAIFhAIxyH5l6AMeLAL2fAJmusNWzANStcOjMANDh4////////////////yH5BAEKAA8ALAAAAAASAAwAAARP8MmzpLXrXLkI+OBHVBtAEIahKOkJbI+JqqzhwnK6th48nLraaQBDmIItAAJWEMx2NkEB9igAkAbAFJYICLCCQGLT7V53ALH4spaELF1JBAA7")
+
+// Accept color as string without "#" symbol
+@mixin addInactiveImage($imageColor)
+  background: url('data:image/svg+xml;utf8,<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"	 viewBox="0 0 256 256"><path d="M128,44.7c47,0,85.3,38.3,85.3,85.3S175,215.3,128,215.3S42.7,177,42.7,130S81,44.7,128,44.7 M128,9.7	C61.6,9.7,7.7,63.6,7.7,130S61.6,250.3,128,250.3S248.3,196.4,248.3,130S194.4,9.7,128,9.7L128,9.7z" fill="%23' + $imageColor + '"/></svg>')
+
+@mixin addActiveImage($imageColor)
+  background: url('data:image/svg+xml;utf8,<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 256 256"><g>	<circle cx="128" cy="130" r="120.3" fill="%23' + $imageColor + '"/></g></svg>')
+
+.cargoImage
+  height: 12px
+  width: 18px
+  background: $cargoImageSrc no-repeat 0 0
+
+.defenseImage
+  height: 12px
+  width: 18px
+  background: $defenseImageSrc no-repeat 0 0
