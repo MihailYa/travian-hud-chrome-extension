@@ -4,6 +4,8 @@ import { TravianScanner } from './travianScanner/travianScanner';
 import VillagesList from './VillagesList/VillagesList';
 import { TravianUrlWatcher } from './travianScanner/travianUrlWatcher';
 import log from 'loglevel';
+import { connect } from 'react-redux';
+import { setVillages } from './reduxStore/villages';
 
 
 class App extends Component {
@@ -22,9 +24,10 @@ class App extends Component {
     iFrame.height = iFrame.contentWindow.document.body.scrollHeight + 'px';
 
     this.travianScanner = new TravianScanner('background', iFrame.contentWindow.document);
-    const newState = Object.assign({}, this.state);
-    newState.villages = this.travianScanner.scanVillages();
-    this.setState(newState);
+    //const newState = Object.assign({}, this.state);
+    //newState.villages = this.travianScanner.scanVillages();
+    this.props.dispatch(setVillages(this.travianScanner.scanVillages()))
+    //this.setState(newState);
 
     this.travianUrlWatcher.onIframeLoad(iFrame);
   }
@@ -32,13 +35,13 @@ class App extends Component {
   render() {
     const content = () => (
       <FloatingWindow componentId="villagesList">
-        <VillagesList villagesList={this.state.villages.villagesList} />
+        <VillagesList />
       </FloatingWindow>
     );
 
     return (
       <div className="appRoot">
-        {this.travianScanner !== undefined && content()}
+        {content()}
         <iframe title={'Travian main'} src={window.location.href} className="travianIframe" ref={this.floatingWindowRef}
                 onLoad={this.onIframeLoad.bind(this)} scrolling="no" />
       </div>
@@ -46,4 +49,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default connect()(App);

@@ -8,3 +8,14 @@ export class Village {
     this.isActive = isActive;
   }
 }
+
+export function createVillage(villageIndex, villageId, villageName, villageLinkRef, coordinates /* : {x, y} */, isActive) {
+  return {
+    villageIndex: villageIndex,
+    villageId: villageId,
+    villageName: villageName,
+    villageLinkRef: villageLinkRef,
+    coordinates: coordinates,
+    isActive: isActive
+  }
+}

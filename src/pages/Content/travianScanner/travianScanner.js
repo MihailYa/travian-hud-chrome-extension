@@ -1,5 +1,5 @@
 import { $g, $gc, $gt, retrieveNumber } from './parsingUtils';
-import { Village } from './model/village';
+import { createVillage } from './model/village';
 import { coordsToVillageId, detectMapSize } from './travianUtils';
 
 export class TravianScanner {
@@ -26,7 +26,7 @@ export class TravianScanner {
         y: retrieveNumber($gc('coordinateY', villageHtmlHref)[0].textContent),
       };
       const villageId = coordsToVillageId(this.mapSize, coordinates.x, coordinates.y);
-      villagesList.push(new Village(i, villageId, villageName, villageLink, coordinates, isActive));
+      villagesList.push(createVillage(i, villageId, villageName, villageLink, coordinates, isActive));
     }
 
     return {

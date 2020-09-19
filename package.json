@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@hot-loader/react-dom": "^16.13.0",
+    "@reduxjs/toolkit": "^1.4.0",
     "@types/chrome": "0.0.104",
     "@types/react": "^16.9.49",
     "classnames": "^2.2.6",
@@ -22,7 +23,9 @@
     "react-dom": "^16.13.1",
     "react-draggable": "^4.4.3",
     "react-hot-loader": "^4.12.21",
-    "react-localization": "^1.0.15"
+    "react-localization": "^1.0.15",
+    "react-redux": "^7.2.1",
+    "redux": "^4.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",

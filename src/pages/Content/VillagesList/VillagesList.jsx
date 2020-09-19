@@ -1,8 +1,9 @@
 import './VillagesList.sass';
 import React, { Component } from 'react';
 import VillageListRow from './VillageListRow';
+import { connect } from 'react-redux';
 
-export default class VillagesList extends Component {
+class VillagesList extends Component {
   render() {
     const villagesComponents = this.props.villagesList.map((village) =>
       <VillageListRow village={village} key={village.villageIndex}/>
@@ -15,3 +16,11 @@ export default class VillagesList extends Component {
     </table>;
   }
 }
+
+function mapStateToProps(state, ownProps) {
+  return {
+    villagesList: state.villages.villagesList,
+  };
+}
+
+export default connect(mapStateToProps)(VillagesList)
