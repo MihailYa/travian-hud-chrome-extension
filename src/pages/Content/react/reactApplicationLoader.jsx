@@ -1,9 +1,13 @@
+import log from 'loglevel';
+
 export class ReactApplicationLoader {
+  logger = log.getLogger("ReactApplicationLoader");
   loadConditions = [];
 
-  constructor(prerenderScript, renderScript) {
+  constructor(prerenderScript, renderScript, postRenderScript) {
     this.prerenderScript = prerenderScript;
     this.renderScript = renderScript;
+    this.postRenderScript = postRenderScript;
   }
 
   addLoadCondition(loadCondition) {
@@ -17,7 +21,11 @@ export class ReactApplicationLoader {
   loadApplication() {
     if (this.checkLoadConditions()) {
       const renderParams = this.prerenderScript();
-      this.renderScript(renderParams);
+      const postRenderParams = this.renderScript(renderParams);
+      this.postRenderScript(postRenderParams);
+      this.logger.trace("Travian HUD React is rendered");
+    } else {
+      this.logger.trace("Travian HUD React is disabled due to load conditions");
     }
   }
 }

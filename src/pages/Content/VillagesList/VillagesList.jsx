@@ -8,7 +8,6 @@ export default class VillagesList extends Component {
       <VillageListRow village={village} key={village.villageIndex}/>
     );
 
-    console.log(villagesComponents);
     return <table className="villagesListTable">
       <tbody>
         {villagesComponents}

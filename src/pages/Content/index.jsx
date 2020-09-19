@@ -2,8 +2,10 @@ import React from 'react';
 import { render } from 'react-dom';
 import './index.sass';
 import App from './App';
-import { TravianBuildingUpgraderProxy } from './travian/travianBuildingUpgraderProxy';
 import { ReactApplicationLoader } from './react/reactApplicationLoader';
+import log from 'loglevel'
+
+log.setLevel('trace');
 
 const reactApplicationLoader = new ReactApplicationLoader(
   () => {
@@ -15,12 +17,19 @@ const reactApplicationLoader = new ReactApplicationLoader(
   },
   (root) => {
     render(<App />, root);
+  },
+  () => {
+    // Travian crypt system fix
+    const htmlScriptElement = window.document.createElement('script');
+    htmlScriptElement.innerHTML =
+      'const travianIFrame = document.getElementsByClassName(\'travianIframe\')[0];\n' +
+      'const key = window.Travian.nonvotingUnsheathingCommunicating;\n' +
+      'travianIFrame.onload = () => {\n' +
+      '   travianIFrame.contentWindow.Travian.nonvotingUnsheathingCommunicating = key;  \n' +
+      '}';
+    window.document.head.appendChild(htmlScriptElement);
   });
 
-
-const travianBuildingUpgraderProxy = new TravianBuildingUpgraderProxy();
-
-reactApplicationLoader.addLoadCondition(travianBuildingUpgraderProxy.onPageLoaded);
 reactApplicationLoader.addLoadCondition(() => true);
 
 reactApplicationLoader.loadApplication();

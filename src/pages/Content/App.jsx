@@ -3,25 +3,21 @@ import FloatingWindow from './FloatingWindow/FloatingWindow';
 import { TravianScanner } from './travianScanner/travianScanner';
 import VillagesList from './VillagesList/VillagesList';
 import { TravianUrlWatcher } from './travianScanner/travianUrlWatcher';
-import { TravianBuildingUpgraderProxy } from './travian/travianBuildingUpgraderProxy';
+import log from 'loglevel';
+
 
 class App extends Component {
+  logger = log.getLogger("App");
   floatingWindowRef = React.createRef();
 
   constructor(props) {
     super(props);
 
-    this.travianBuildingUpgraderProxy = new TravianBuildingUpgraderProxy();
     this.travianUrlWatcher = new TravianUrlWatcher();
-    this.travianUrlWatcher.onBuildingPageOpened.addEventListener(this.onBuildingPageLoaded.bind(this));
-  }
-
-  onBuildingPageLoaded() {
-    console.log('Building page loaded');
-    this.travianBuildingUpgraderProxy.onBuildingPageLoaded(this.floatingWindowRef.current.contentWindow);
   }
 
   onIframeLoad() {
+    this.logger.trace("Travian iframe is loaded");
     const iFrame = this.floatingWindowRef.current;
     iFrame.height = iFrame.contentWindow.document.body.scrollHeight + 'px';
 
@@ -29,8 +25,6 @@ class App extends Component {
     const newState = Object.assign({}, this.state);
     newState.villages = this.travianScanner.scanVillages();
     this.setState(newState);
-    console.log(window.Travian.nonvotingUnsheathingCommunicating);
-    iFrame.contentWindow.Travian = window.Travian;
 
     this.travianUrlWatcher.onIframeLoad(iFrame);
   }
