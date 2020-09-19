@@ -24,9 +24,12 @@ export default class FloatingWindow extends Component {
     };
 
     this.setState(newState);
+    document.body.style.cursor = 'move';
   }
 
   onMouseUp(event) {
+    if (!this.state.isDragging)
+      return;
     const newState = Object.assign({}, this.state);
     newState.isDragging = false;
     newState.mouseOffset = null;
@@ -35,6 +38,7 @@ export default class FloatingWindow extends Component {
       floatingWindowPosX: this.state.floatingWindowPosX,
       floatingWindowPosY: this.state.floatingWindowPosY
     }));
+    document.body.style.cursor = 'auto';
   }
 
   onMouseMove(event) {
@@ -53,6 +57,7 @@ export default class FloatingWindow extends Component {
 
   componentDidMount() {
     document.addEventListener('mousemove', this.onMouseMove.bind(this));
+    document.addEventListener('mouseup', this.onMouseUp.bind(this))
   }
 
   getComponentId() {
