@@ -1,6 +1,6 @@
 // Get element by id
-export function $g(aID) {
-  return document.getElementById(aID);
+export function $g(aID, root) {
+  return (typeof root == 'undefined' ? document : root).getElementById(aID);
 }
 
 // Get element by name
