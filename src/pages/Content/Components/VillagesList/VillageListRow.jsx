@@ -1,7 +1,7 @@
 import './VillagesList.sass';
 import React, { Component } from 'react';
 import classNames from 'classnames';
-import { strings } from '../global/localization';
+import { strings } from '../../global/localization';
 
 export default class VillageListRow extends Component {
   render() {

@@ -1,14 +1,14 @@
-import { $g, $gc, $gt, retrieveNumber } from './parsingUtils';
+import { $gc, $gt, retrieveNumber } from './parsingUtils';
 import { createVillage } from './model/village';
-import { coordsToVillageId, detectMapSize } from './travianUtils';
+import { coordsToVillageId } from './travianUtils';
+import { TravianScannerBase } from './travianScannerBase';
 
-export class TravianScanner {
-  constructor(travianRootId, rootDocument) {
-    this.travianRootId = travianRootId;
-    this.rootDocument = rootDocument;
-    this.mapSize = detectMapSize();
-  }
+export class VillagesScanner extends TravianScannerBase {
 
+  /**
+   * Scan villages list panel
+   * @returns {{villagesList: [], activeVillageIndex: number}}
+   */
   scanVillages() {
     const villagesHtml = $gt('li', this.g('sidebarBoxVillagelist'));
     const villagesList = [];
@@ -33,30 +33,5 @@ export class TravianScanner {
       activeVillageIndex: activeVillageIndex,
       villagesList: villagesList,
     };
-  }
-
-  // Get root element
-  r() {
-    return $g(this.travianRootId, this.rootDocument);
-  }
-
-  // Get element by id
-  g(aID) {
-    return $g(aID, this.rootDocument);
-  }
-
-  // Get element by name
-  gn(aID) {
-    return this.r().getElementsByName(aID);
-  }
-
-  // Get element by tag name
-  gt(tagName, root = undefined) {
-    return (typeof root == 'undefined' ? this.r() : root).getElementsByTagName(tagName);
-  }
-
-  // Get element by class name
-  gc(className, root = undefined) {
-    return (typeof root == 'undefined' ? this.r() : root).getElementsByClassName(className);
   }
 }

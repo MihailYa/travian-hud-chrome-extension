@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import FloatingWindow from './FloatingWindow/FloatingWindow';
-import { TravianScanner } from './travianScanner/travianScanner';
+import { VillagesScanner } from '../travianScanner/villagesScanner';
 import VillagesList from './VillagesList/VillagesList';
-import { TravianUrlWatcher } from './travianScanner/travianUrlWatcher';
+import { TravianUrlWatcher } from '../travianScanner/travianUrlWatcher';
 import log from 'loglevel';
 import { connect } from 'react-redux';
-import { setVillages } from './reduxStore/villages';
+import { setVillages } from '../reduxStore/villages';
+import { BuildingsScanner } from '../travianScanner/buildingsScanner/buildingsScanner';
 
 
 class App extends Component {
@@ -16,6 +17,12 @@ class App extends Component {
     super(props);
 
     this.travianUrlWatcher = new TravianUrlWatcher();
+    this.travianUrlWatcher.onBuildingPageOpened.addEventListener((buildingType) => {
+      this.buildingsScanner.onBuildingPageOpened(buildingType);
+    });
+    this.travianUrlWatcher.onUrlChanged.addEventListener(url => {
+      window.history.pushState({}, document.title, url);
+    })
   }
 
   onIframeLoad() {
@@ -23,11 +30,13 @@ class App extends Component {
     const iFrame = this.floatingWindowRef.current;
     iFrame.height = iFrame.contentWindow.document.body.scrollHeight + 'px';
 
-    this.travianScanner = new TravianScanner('background', iFrame.contentWindow.document);
-    //const newState = Object.assign({}, this.state);
-    //newState.villages = this.travianScanner.scanVillages();
+    this.travianScanner = new VillagesScanner('background', iFrame.contentWindow.document);
+    this.buildingsScanner = new BuildingsScanner('background', iFrame.contentWindow.document);
+    this.buildingsScanner.onAnyBuildingScanned.addEventListener((data) => {
+      console.log("Any building data: " + JSON.stringify(data));
+    })
+
     this.props.dispatch(setVillages(this.travianScanner.scanVillages()))
-    //this.setState(newState);
 
     this.travianUrlWatcher.onIframeLoad(iFrame);
   }

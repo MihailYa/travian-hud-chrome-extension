@@ -48,3 +48,8 @@ export function retrieveNumber(str) {
     str.match(/−‭?\d+/)[0]       // Clearing all not number symbols
       .replace('−‭', '-'));       // Replacing '−' symbol by '-'
 }
+
+export function toSeconds(hTime) {
+  const p = hTime.match(/(\d+):(\d+):(\d+)/);
+  return p ? (p[1] >= 0 ? 1 : -1) * ((Math.abs(p[1]) * 3600) + (p[2] * 60) + (p[3] * 1)) : 0;
+}

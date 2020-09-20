@@ -2,12 +2,12 @@ import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux'
 import './index.sass';
-import App from './App';
+import App from './Components/App';
 import { ReactApplicationLoader } from './react/reactApplicationLoader';
 import log from 'loglevel'
 import store from './reduxStore/store'
 
-log.setLevel('trace');
+log.setLevel('debug');
 
 const reactApplicationLoader = new ReactApplicationLoader(
   () => {
