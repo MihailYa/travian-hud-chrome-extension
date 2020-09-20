@@ -7,6 +7,7 @@ import log from 'loglevel';
 import { connect } from 'react-redux';
 import { setVillages } from '../reduxStore/villages';
 import { BuildingsScanner } from '../travianScanner/buildingsScanner/buildingsScanner';
+import { BuildsProgressScanner } from '../travianScanner/buildsProgressScanner';
 
 
 class App extends Component {
@@ -19,6 +20,9 @@ class App extends Component {
     this.travianUrlWatcher = new TravianUrlWatcher();
     this.travianUrlWatcher.onBuildingPageOpened.addEventListener((buildingType) => {
       this.buildingsScanner.onBuildingPageOpened(buildingType);
+    });
+    this.travianUrlWatcher.onResourcesPageOpened.addEventListener(() => {
+      this.buildsProgressScanner.onBuildsProgressPageOpened();
     });
     this.travianUrlWatcher.onUrlChanged.addEventListener(url => {
       window.history.pushState({}, document.title, url);
@@ -34,6 +38,10 @@ class App extends Component {
     this.buildingsScanner = new BuildingsScanner('background', iFrame.contentWindow.document);
     this.buildingsScanner.onAnyBuildingScanned.addEventListener((data) => {
       console.log("Any building data: " + JSON.stringify(data));
+    })
+    this.buildsProgressScanner = new BuildsProgressScanner('background', iFrame.contentWindow.document);
+    this.buildsProgressScanner.onBuildsScanned.addEventListener((data) => {
+      console.log("Builds progress data: " + JSON.stringify(data));
     })
 
     this.props.dispatch(setVillages(this.travianScanner.scanVillages()))
