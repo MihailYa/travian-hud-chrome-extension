@@ -27,7 +27,7 @@ export class VillagesScanner extends AbstractTravianScanner {
         x: retrieveNumber($gc('coordinateX', villageHtmlHref)[0].textContent),
         y: retrieveNumber($gc('coordinateY', villageHtmlHref)[0].textContent),
       };
-      const villageId = coordsToVillageId(this.mapSize, coordinates.x, coordinates.y);
+      const villageId = coordsToVillageId(this.travianDocumentScanner.mapSize, coordinates.x, coordinates.y);
       villagesList.push(createVillage(i, villageId, villageName, villageLink, coordinates, isActive));
     }
     this.onVillagesScanned.broadcast({

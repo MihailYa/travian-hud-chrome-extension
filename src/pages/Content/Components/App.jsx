@@ -14,7 +14,7 @@ import { EventsDispatchSetuper } from '../travianScanner/scanners/setup/eventsDi
 
 class App extends Component {
   logger = log.getLogger("App");
-  floatingWindowRef = React.createRef();
+  iFrameRef = React.createRef();
 
   constructor(props) {
     super(props);
@@ -33,7 +33,7 @@ class App extends Component {
 
   onIframeLoad() {
     this.logger.trace("Travian iframe is loaded");
-    const iFrame = this.floatingWindowRef.current;
+    const iFrame = this.iFrameRef.current;
     // Make body height equal to iframe height
     iFrame.height = iFrame.contentWindow.document.body.scrollHeight + 'px';
     //this.props.dispatch(setVillages(this.travianScanner.onVillagesListOpened()))
@@ -42,17 +42,21 @@ class App extends Component {
     this.travianUrlWatcher.onIframeLoad(iFrame);
   }
 
+  onLinkPressed(href) {
+    this.iFrameRef.current.contentWindow.location = href;
+  }
+
   render() {
     const content = () => (
       <FloatingWindow componentId="villagesList">
-        <VillagesList />
+        <VillagesList onLinkPressed={this.onLinkPressed.bind(this)}/>
       </FloatingWindow>
     );
 
     return (
       <div className="appRoot">
         {content()}
-        <iframe title={'Travian main'} src={window.location.href} className="travianIframe" ref={this.floatingWindowRef}
+        <iframe title={'Travian main'} src={window.location.href} className="travianIframe" ref={this.iFrameRef}
                 onLoad={this.onIframeLoad.bind(this)} scrolling="no" />
       </div>
     );

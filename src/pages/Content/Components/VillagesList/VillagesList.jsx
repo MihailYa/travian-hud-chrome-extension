@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 class VillagesList extends Component {
   render() {
     const villagesComponents = this.props.villagesList.map((village) =>
-      <VillageListRow village={village} key={village.villageIndex}/>
+      <VillageListRow village={village} key={village.villageIndex} onLinkPressed={this.props.onLinkPressed}/>
     );
 
     return <table className="villagesListTable">
