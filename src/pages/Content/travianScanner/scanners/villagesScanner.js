@@ -1,15 +1,17 @@
-import { $gc, $gt, retrieveNumber } from './parsingUtils';
-import { createVillage } from './model/village';
-import { coordsToVillageId } from './travianUtils';
-import { TravianScannerBase } from './travianScannerBase';
+import { $gc, $gt, retrieveNumber } from '../parsingUtils';
+import { createVillage } from '../model/village';
+import { coordsToVillageId } from '../travianUtils';
+import { AbstractTravianScanner } from './abstractTravianScanner';
+import { ParametrizedEvent } from '../../utils/parametrizedEvent';
 
-export class VillagesScanner extends TravianScannerBase {
+export class VillagesScanner extends AbstractTravianScanner {
+  // {{villagesList: [], activeVillageIndex: number}}
+  onVillagesScanned = new ParametrizedEvent();
 
   /**
    * Scan villages list panel
-   * @returns {{villagesList: [], activeVillageIndex: number}}
    */
-  scanVillages() {
+  onVillagesListOpened() {
     const villagesHtml = $gt('li', this.g('sidebarBoxVillagelist'));
     const villagesList = [];
     let activeVillageIndex;
@@ -28,10 +30,13 @@ export class VillagesScanner extends TravianScannerBase {
       const villageId = coordsToVillageId(this.mapSize, coordinates.x, coordinates.y);
       villagesList.push(createVillage(i, villageId, villageName, villageLink, coordinates, isActive));
     }
-
-    return {
+    this.onVillagesScanned.broadcast({
       activeVillageIndex: activeVillageIndex,
       villagesList: villagesList,
-    };
+    });
+  }
+
+  getEvents() {
+    return { 'Villages.onVillagesScanned': this.onVillagesScanned };
   }
 }

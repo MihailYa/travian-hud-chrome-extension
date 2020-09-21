@@ -1,8 +1,10 @@
-import { $g } from './parsingUtils';
-import { detectMapSize } from './travianUtils';
+import { $g } from '../parsingUtils';
+import { detectMapSize } from '../travianUtils';
+import { TravianScannerInterface } from './travianScannerInterface';
 
-export class TravianScannerBase {
+export class TravianDocumentScanner extends TravianScannerInterface{
   constructor(travianRootId, rootDocument) {
+    super();
     this.travianRootId = travianRootId;
     this.rootDocument = rootDocument;
     this.mapSize = detectMapSize();

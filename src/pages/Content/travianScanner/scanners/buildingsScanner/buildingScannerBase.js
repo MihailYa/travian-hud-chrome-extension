@@ -1,6 +1,6 @@
-import { TravianScannerBase } from '../travianScannerBase';
+import { AbstractTravianScanner } from '../abstractTravianScanner';
 
-export class BuildingScannerBase extends TravianScannerBase {
+export class BuildingScannerBase extends AbstractTravianScanner {
   scanBuilding() {
     const progress = this.scanProgress();
     return this.parseContent(progress);

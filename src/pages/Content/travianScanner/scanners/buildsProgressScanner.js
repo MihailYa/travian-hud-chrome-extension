@@ -1,14 +1,14 @@
-import { TravianScannerBase } from './travianScannerBase';
-import { $gc, $gt } from './parsingUtils';
-import { ParametrizedEvent } from '../utils/parametrizedEvent';
+import { $gc, $gt } from '../parsingUtils';
+import { ParametrizedEvent } from '../../utils/parametrizedEvent';
+import { AbstractTravianScanner } from './abstractTravianScanner';
 
-export class BuildsProgressScanner extends TravianScannerBase {
+export class BuildsProgressScanner extends AbstractTravianScanner {
   onBuildsScanned = new ParametrizedEvent();
 
   onBuildsProgressPageOpened() {
     const buildingListCollection = this.gc('buildingList');
     const buildsProgress = [];
-    if(buildingListCollection.length !== 0) {
+    if (buildingListCollection.length !== 0) {
       const buildingListHtml = buildingListCollection[0];
       const progressRows = $gt('li', buildingListHtml);
       for (let i = 0; i < progressRows.length; i++) {
@@ -22,11 +22,15 @@ export class BuildsProgressScanner extends TravianScannerBase {
         buildsProgress.push({
           buildingName: buildingName,
           buildingLevel: buildingLevel,
-          endTime: endTime
+          endTime: endTime,
         });
       }
     }
 
     this.onBuildsScanned.broadcast(buildsProgress);
+  }
+
+  getEvents() {
+    return { 'Builds.onBuildsScanned': this.onBuildsScanned };
   }
 }

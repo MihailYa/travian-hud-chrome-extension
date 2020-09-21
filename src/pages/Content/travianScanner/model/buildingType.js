@@ -1,13 +1,13 @@
 export const BuildingType = {
-  BARRACKS: { index: 0, id: 'gid19' },
-  STABLE: { index: 1, id: 'gid20' },
-  PALACE: { index: 2, id: 'gid26' },
-  RESIDENCE: { index: 3, id: 'gid25' },
-  MARKETPLACE: { index: 4, id: 'gid17' },
-  TOWN_HALL: { index: 5, id: 'gid24' },
-  ACADEMY: { index: 6, id: 'gid22' },
-  RALLY_POINT: { index: 7, id: 'gid16' },
-  SMITHY: { index: 8, id: 'gid13' },
+  BARRACKS: { index: 0, id: 'gid19', name: 'BARRACKS' },
+  STABLE: { index: 1, id: 'gid20', name: 'STABLE' },
+  PALACE: { index: 2, id: 'gid26', name: 'PALACE' },
+  RESIDENCE: { index: 3, id: 'gid25', name: 'RESIDENCE' },
+  MARKETPLACE: { index: 4, id: 'gid17', name: 'MARKETPLACE' },
+  TOWN_HALL: { index: 5, id: 'gid24', name: 'TOWN_HALL' },
+  ACADEMY: { index: 6, id: 'gid22', name: 'ACADEMY' },
+  RALLY_POINT: { index: 7, id: 'gid16', name: 'RALLY_POINT' },
+  SMITHY: { index: 8, id: 'gid13', name: 'SMITHY' },
 }
 
 export const BuildingIdToBuildingType = {
