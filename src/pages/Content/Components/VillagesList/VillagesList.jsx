@@ -2,18 +2,25 @@ import './VillagesList.sass';
 import React, { Component } from 'react';
 import VillageListRow from './VillageListRow';
 import { connect } from 'react-redux';
+import Timeline from './timeline/Timeline';
 
 class VillagesList extends Component {
   render() {
     const villagesComponents = this.props.villagesList.map((village) =>
-      <VillageListRow village={village} key={village.villageIndex} onLinkPressed={this.props.onLinkPressed}/>
+      <VillageListRow village={village} key={village.villageIndex} onLinkPressed={this.props.onLinkPressed} />,
     );
 
-    return <table className="villagesListTable">
-      <tbody>
-        {villagesComponents}
-      </tbody>
-    </table>;
+    return (
+      <div>
+        <table className="villagesListTable">
+          <tbody>
+          {villagesComponents}
+          </tbody>
+        </table>
+        <div style={{position: 'relative', display: 'inline-block', verticalAlign: 'top'}}><Timeline /></div>
+
+      </div>
+    );
   }
 }
 
@@ -23,4 +30,4 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
-export default connect(mapStateToProps)(VillagesList)
+export default connect(mapStateToProps)(VillagesList);

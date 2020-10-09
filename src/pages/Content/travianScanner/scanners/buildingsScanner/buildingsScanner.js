@@ -7,7 +7,6 @@ import { AbstractTravianScanner } from '../abstractTravianScanner';
 
 export class BuildingsScanner extends AbstractTravianScanner {
   onAnyBuildingScanned = new ParametrizedEvent();
-  onBarracksScanned = new ParametrizedEvent();
 
   constructor(travianDocumentScanner) {
     super(travianDocumentScanner);
@@ -38,7 +37,11 @@ export class BuildingsScanner extends AbstractTravianScanner {
       if (scannerAndEventForBuilding.event !== undefined) {
         scannerAndEventForBuilding.event.broadcast(scanResult);
       }
-      this.onAnyBuildingScanned.broadcast(scanResult);
+      this.onAnyBuildingScanned.broadcast(
+        {
+          buildingType: buildingType,
+          scanResult: scanResult,
+        });
     }
   }
 
@@ -87,8 +90,8 @@ export class BuildingsScanner extends AbstractTravianScanner {
     }
     return {
       scanner: scanner,
-      event: this.events[buildingType.name]
-    }
+      event: this.events[buildingType.name],
+    };
   }
 
   // Buildings.BuildingType
@@ -98,5 +101,6 @@ export class BuildingsScanner extends AbstractTravianScanner {
     for (let eventsKey in this.events) {
       eventsList['Buildings.' + eventsKey] = this.events[eventsKey];
     }
+    eventsList['Buildings.onAnyBuildingScanned'] = this.onAnyBuildingScanned;
   }
 }

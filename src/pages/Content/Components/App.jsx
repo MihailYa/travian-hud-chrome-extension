@@ -34,9 +34,9 @@ class App extends Component {
   onIframeLoad() {
     this.logger.trace("Travian iframe is loaded");
     const iFrame = this.iFrameRef.current;
+
     // Make body height equal to iframe height
     iFrame.height = iFrame.contentWindow.document.body.scrollHeight + 'px';
-    //this.props.dispatch(setVillages(this.travianScanner.onVillagesListOpened()))
 
     this.travianScannersSetuper.onMainDocumentLoaded(iFrame.contentWindow.document);
     this.travianUrlWatcher.onIframeLoad(iFrame);

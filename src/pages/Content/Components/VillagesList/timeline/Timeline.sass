@@ -1,0 +1,28 @@
+@import "src/pages/Content/global/colors"
+
+.timeline
+  position: absolute
+  display: inline-block
+  border-radius: 10px
+  background-color: $darkBGColor
+  color: $darkBGTextColor
+  padding: 5px
+  border-spacing: 0 5px
+  .timelineElement
+    background: none
+    padding: 5px
+    border-radius: 10px
+    &:not(:first-child)
+      margin-top: 5px
+    &:hover
+      cursor: pointer
+    &.endedTimer
+      background-color: $darkBGWarningTextColor
+    .column
+      display: table-cell
+    table
+      padding: 0
+      background: none
+      td
+        padding:  0 2px
+        background: none
